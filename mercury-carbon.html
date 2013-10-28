@@ -3,11 +3,59 @@
 </head>
 
 <body>
-  {{> hello}}
+  <div class="content">
+    {{> main}}
+  </div>
+
+  <div class="footer">
+    {{> footer}}
+  </div>
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name = "main">
+  {{#if showAdmin}}
+    {{> admin}}
+  {{else}}
+    {{> signup}}
+  {{/if}}
+</template>
+
+<template name = "footer">
+  <a href = "#"> | Mercury Carbon | Email Lead Capturer</a>
+  {{#if isAdmin}}
+  | <a href = "#" class = "admin">toggle admin</a>
+  {{/if}}
+  | {{loginButtons}}
+</template>
+
+<template name="signup">
+  {{#if emailSubmitted }}
+    <h1>Thanks for signing up!</h1>
+  {{else }}
+  <h1>Sign up for our newsletter</h1>
+    <p>We'd love to stay in touch with you &mdash; leave us your email and we'll keep you
+    up to date...</p>
+    <form>
+      {{#if showBadEmail}}
+        {{> badEmail}}
+      {{/if}}
+      <input id="email"><button>&gt;</button>
+  {{/if}}
+  </form>
+</template>
+
+<template name = "admin">
+  <h1>Signed up Customers</h1>
+  <table>
+    <tr><th>Customer Email</th><th>Referrer</th><th>Time</th></tr>
+    {{#each emails}}
+      <tr><td>{{ this.email }}</td><td>{{ this.referrer }}</td><td>{{ this.timestamp }}</td></tr>
+    {{/each }}
+  </table>
+</template>
+
+<template name="badEmail">
+  <div class="error">
+    <p>That's not a real email address...</p>
+  </div>
 </template>
